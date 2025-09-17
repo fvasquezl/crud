@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import PostController from '@/actions/App/Http/Controllers/PostController';
 import type { Post } from '@/types';
-import { Form } from '@inertiajs/vue3';
+import { Form, Link } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -14,6 +13,7 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import Icon from '@/components/Icon.vue';
+import { edit, show, destroy} from '@/routes/posts';
 
 interface Props {
     post: Post;
@@ -23,6 +23,18 @@ const props = defineProps<Props>();
 </script>
 
 <template>
+    <Button variant="ghost" size="sm" as-child>
+        <Link :href="show(props.post.id)" class="inline-flex items-center gap-1.5">
+            <Icon name="eye" class="h-3.5 w-3.5" />
+            <span class="sr-only sm:not-sr-only">View</span>
+        </Link>
+    </Button>
+    <Button variant="ghost" size="sm" as-child>
+        <Link :href="edit(props.post.id)" class="inline-flex items-center gap-1.5">
+            <Icon name="pencil" class="h-3.5 w-3.5" />
+            <span class="sr-only sm:not-sr-only">Edit</span>
+        </Link>
+    </Button>
     <Dialog>
         <DialogTrigger as-child>
             <Button variant="ghost" size="sm" class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
@@ -33,7 +45,7 @@ const props = defineProps<Props>();
 
         <DialogContent class="sm:max-w-md">
             <Form
-                v-bind="PostController.destroy.form(props.post.id)"
+                :action="destroy(props.post.id)"
                 reset-on-success
                 :options="{ preserveScroll: true }"
                 v-slot="{ processing, reset, clearErrors }"
@@ -44,8 +56,8 @@ const props = defineProps<Props>();
                         Delete Post
                     </DialogTitle>
                     <DialogDescription class="text-left">
-                        Are you sure you want to delete "<strong>{{ props.post.title }}</strong>"?
-                        <br><br>
+                        Are you sure you want to delete "<strong>{{ props.post.title }}</strong
+                        >"? <br /><br />
                         This action cannot be undone and will permanently remove the post and all its data.
                     </DialogDescription>
                 </DialogHeader>
@@ -54,20 +66,17 @@ const props = defineProps<Props>();
                     <DialogClose as-child>
                         <Button
                             variant="outline"
-                            @click="() => {
-                                clearErrors();
-                                reset();
-                            }"
+                            @click="
+                                () => {
+                                    clearErrors();
+                                    reset();
+                                }
+                            "
                         >
                             Cancel
                         </Button>
                     </DialogClose>
-                    <Button
-                        type="submit"
-                        variant="destructive"
-                        :disabled="processing"
-                        class="gap-2"
-                    >
+                    <Button type="submit" variant="destructive" :disabled="processing" class="gap-2">
                         <Icon name="trash2" class="h-4 w-4" />
                         {{ processing ? 'Deleting...' : 'Delete Post' }}
                     </Button>

@@ -2,11 +2,11 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
-import { create, show, edit } from '@/routes/posts';
+import { create} from '@/routes/posts';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/Icon.vue';
 import type { Post } from '@/types';
-import DeletePostButton from '@/components/Posts/DeletePostButton.vue';
+import ListPostActions from '@/components/Posts/ListPostActions.vue';
 
 defineProps<{
     posts: Post[];
@@ -94,19 +94,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex items-center justify-end gap-2">
-                                        <Button variant="ghost" size="sm" as-child>
-                                            <Link :href="show(post.id)" class="inline-flex items-center gap-1.5">
-                                                <Icon name="eye" class="h-3.5 w-3.5" />
-                                                <span class="sr-only sm:not-sr-only">View</span>
-                                            </Link>
-                                        </Button>
-                                        <Button variant="ghost" size="sm" as-child>
-                                            <Link :href="edit(post.id)" class="inline-flex items-center gap-1.5">
-                                                <Icon name="pencil" class="h-3.5 w-3.5" />
-                                                <span class="sr-only sm:not-sr-only">Edit</span>
-                                            </Link>
-                                        </Button>
-                                        <DeletePostButton :post="post" />
+                                        <ListPostActions :post="post" />
                                     </div>
                                 </td>
                             </tr>

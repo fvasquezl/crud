@@ -57,7 +57,6 @@ const resetFields = computed(() => {
                     id="title"
                     type="text"
                     autofocus
-                    autocomplete="title"
                     name="title"
                     placeholder="Enter post title"
                     :model-value="props.mode === 'edit' ? props.post.title : ''"
