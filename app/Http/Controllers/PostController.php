@@ -35,11 +35,11 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        $post = $request->user()
+        $request->user()
             ->posts()
             ->create($request->validated());
 
-        return to_route('posts.show',$post);
+        return to_route('posts.index');
     }
 
     /**
@@ -47,7 +47,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        dd($post);
+        return Inertia::render('Posts/Show',[
+            'post'=> $post
+        ]);
     }
 
     /**
@@ -55,15 +57,19 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return Inertia::render('Posts/Edit',[
+            'post'=> $post
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(StorePostRequest $request, Post $post)
     {
-        //
+        $post->update($request->validated());
+
+        return to_route('posts.index');
     }
 
     /**
@@ -71,6 +77,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return to_route('posts.index');
     }
 }

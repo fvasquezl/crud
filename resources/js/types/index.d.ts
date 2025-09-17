@@ -35,3 +35,11 @@ export interface User {
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
+
+export interface Post {
+    id: string;  // UUID as string
+    title: string;
+    body: string;
+    created_at?: string;
+    updated_at?: string;
+}

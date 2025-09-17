@@ -8,6 +8,7 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
 import { BookOpen, Folder, LayoutGrid } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
+import { index } from '@/routes/posts';
 
 const mainNavItems: NavItem[] = [
     {
@@ -17,7 +18,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Posts',
-        href: 'posts',
+        href: index(),
         icon: LayoutGrid,
     },
 ];
@@ -43,7 +44,7 @@ const footerNavItems: NavItem[] = [
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
                         <Link :href="dashboard()">
-                        <AppLogo />
+                            <AppLogo />
                         </Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
